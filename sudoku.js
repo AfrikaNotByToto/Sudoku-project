@@ -3,7 +3,19 @@
  * Возвращает игровое поле после попытки его решить.
  * Договорись со своей командой, в каком формате возвращать этот результат.
  */
-numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+const findAllEmptyCell = (puzzle) => {
+  const allEmptyCells = [];
+  for (let i = 0; i < 9; i += 1) {
+    for (let j = 0; j < 9; j += 1) {
+      if (puzzle[i][j] === '-') {
+        allEmptyCells.push([i, j]);
+      }
+    }
+  }
+  return allEmptyCells;
+};
 
 const getSquare = (arr, num1, num2) => {
   const square = [];
@@ -42,15 +54,16 @@ function solve(boardString) {
 
   // squares = массив квадратов
 
-  let isNumIncluded = Array.from({ length: puzzle[0].length }, () => []);
-  for (let n = 0; n < puzzle[0].length; n += 1) {
-    for (let p = 0; p < 9; p += 1) {
-      isNumIncluded[n].push(puzzle[0][n] === numbers[p]);
+  console.table(puzzle);
+
+  console.log(findAllEmptyCell(puzzle));
+  const possibleNumbers = [];
+  for (let i = 1; i < 10; i += 1) {
+    if (Number(puzzle[0][i - 1])) {
+      possibleNumbers.push(i);
     }
   }
-  console.log(puzzle[0]);
-  console.log(numbers);
-  isNumIncluded.forEach((el) => console.log(el.indexOf(true)));
+  console.log(possibleNumbers);
 }
 /**
  * Принимает игровое поле в том формате, в котором его вернули из функции solve.
