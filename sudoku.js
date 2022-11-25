@@ -5,65 +5,53 @@
  */
 const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-const findAllEmptyCell = (puzzle) => {
-  const allEmptyCells = [];
-  for (let i = 0; i < 9; i += 1) {
-    for (let j = 0; j < 9; j += 1) {
+// поиск первой пустой ячейки
+const findFirstEmptyCell = (puzzle) => {
+  for (let i = 0; i < puzzle.length; i += 1) {
+    for (let j = 0; j < puzzle.length; j += 1) {
+      // если текущий элемент не заполнен...
       if (puzzle[i][j] === '-') {
-        allEmptyCells.push([i, j]);
+        // ...возвращаем его позицию
+        return [i, j];
       }
     }
   }
-  return allEmptyCells;
-};
-
-const getSquare = (arr, num1, num2) => {
-  const square = [];
-  for (let i = num1 - 3; i < num1; i += 1) {
-    for (let j = num2 - 3; j < num2; j += 1) {
-      square.push(arr[j][i]);
-    }
-  }
-  return square;
+  // если пустых ячеек не осталось, возвращаем null
+  return null;
 };
 
 function solve(boardString) {
+  // создаём массив строк
   const puzzle = [];
+  // заполняем конечную таблицу
   for (let i = 0; i < boardString.length; i += 9) {
+    // из переданной строки берём по 9 символов и превращаем каждую в массив символов
     puzzle.push(boardString.slice(i, i + 9).split(''));
   }
+  // убираем последний символ (который \r)
   puzzle.pop();
 
-  // puzzle = массив строк
+  // размер поля
+  const size = puzzle.length;
+  // размер квадрата поля (здесь 3х3)
+  const square = size / 3;
 
-  const cols = Array.from({ length: puzzle[0].length }, () => []);
-  for (const row of puzzle) {
-    for (let j = 0; j < row.length; j += 1) {
-      cols[j].push(row[j]);
+  const isPuzzleSolvable = () => {
+    // текущая позиция (координаты) пустой ячейки
+    const currentPosition = findFirstEmptyCell(puzzle);
+
+    // если текущая позиция равна null, а не координатам,
+    // значит судоку решён
+    if (currentPosition === null) {
+      return true;
     }
-  }
 
-  // cols = массив столбцов
-
-  const squares = [];
-  for (let k = 3; k < 10; k += 3) {
-    for (let m = 3; m < 10; m += 3) {
-      squares.push(getSquare(puzzle, m, k));
-    }
-  }
-
-  // squares = массив квадратов
+    // решений не найдено
+    return false;
+  };
 
   console.table(puzzle);
-
-  console.log(findAllEmptyCell(puzzle));
-  const possibleNumbers = [];
-  for (let i = 1; i < 10; i += 1) {
-    if (Number(puzzle[0][i - 1])) {
-      possibleNumbers.push(i);
-    }
-  }
-  console.log(possibleNumbers);
+  return puzzle;
 }
 /**
  * Принимает игровое поле в том формате, в котором его вернули из функции solve.
