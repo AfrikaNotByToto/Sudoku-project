@@ -3,7 +3,11 @@
  * Возвращает игровое поле после попытки его решить.
  * Договорись со своей командой, в каком формате возвращать этот результат.
  */
-const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+// размер поля
+const size = puzzle.length;
+// размер квадрата поля (здесь 3х3)
+const square = size / 3;
 
 // поиск первой пустой ячейки
 const findFirstEmptyCell = (puzzle) => {
@@ -20,6 +24,43 @@ const findFirstEmptyCell = (puzzle) => {
   return null;
 };
 
+// проверка, что число встречается только 1 раз в строке, в столбце и в квадрате
+const isPuzzleValid = (curNum, curPos, puzzle) => {
+  // деструктурируем текущую позицию на значение строки и столбца
+  const [row, col] = curPos; // в первый раз [0, 1],
+
+  // проверяем строки
+  for (let i = 0; i < size; i += 1) {
+    // если в колонке нет этого числа, возвращаем false
+    if (puzzle[i][col] === curNum && i !== row) {
+      return false;
+    }
+  }
+
+  // проверяем колонки
+  for (let j = 0; j < size; j += 1) {
+    // если в строке нет этого числа, возвращаем false
+    if (puzzle[row][j] === curNum && j !== col) {
+      return false;
+    }
+  }
+
+  // координаты начала квадрата
+  const squareRow = Math.floor(row / square) * square;
+  const squareCol = Math.floor(col / square) * square;
+
+  // проверяем квадраты
+  for (let m = squareRow; m < squareRow + square; m += 1) {
+    for (let n = squareCol; n < squareCol + square; n += 1) {}
+    // если в квадрате нет этого числа, возвращаем false
+    if (puzzle[m][n] === curNum && m !== row && n !== col) {
+      return false;
+    }
+  }
+  // если мы вставим текущее число на текущую позицию, то поле будет валидным
+  return true;
+};
+
 function solve(boardString) {
   // создаём массив строк
   const puzzle = [];
@@ -31,11 +72,6 @@ function solve(boardString) {
   // убираем последний символ (который \r)
   puzzle.pop();
 
-  // размер поля
-  const size = puzzle.length;
-  // размер квадрата поля (здесь 3х3)
-  const square = size / 3;
-
   const isPuzzleSolvable = () => {
     // текущая позиция (координаты) пустой ячейки
     const currentPosition = findFirstEmptyCell(puzzle);
@@ -46,9 +82,22 @@ function solve(boardString) {
       return true;
     }
 
+    // в цикле перебираем числа от 1 до 9
+    for (let i = 1; i <= size; i += 1) {
+      const currentNumber = String(i);
+      const isValid = isPuzzleValid(
+        currentNumber,
+        currentPosition,
+        puzzle,
+        size
+      );
+    }
+
     // решений не найдено
     return false;
   };
+
+  isPuzzleSolvable();
 
   console.table(puzzle);
   return puzzle;
