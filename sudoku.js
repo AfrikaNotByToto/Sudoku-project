@@ -24,9 +24,9 @@ function solve(boardString) {
   const square = size / 3;
 
   // проверка, что поле решаемо
-  const isPuzzleSolvable = (puzzle) => {
+  const isPuzzleSolvable = (puzzleBoard) => {
     // текущая позиция (координаты) пустой ячейки
-    const currentPosition = findFirstEmptyCell(puzzle);
+    const currentPosition = findFirstEmptyCell(puzzleBoard);
 
     // если текущая позиция равна null, а не координатам,
     // значит судоку решён
@@ -43,7 +43,7 @@ function solve(boardString) {
       const isValid = isPuzzleValid(
         currentNumber,
         currentPosition,
-        puzzle,
+        puzzleBoard,
         size,
         square
       );
@@ -52,16 +52,16 @@ function solve(boardString) {
         // вынимаем из текущей позиции координаты
         const [x, y] = currentPosition;
         // заменяем пустую ячейку на подходящий номер (текущий)
-        puzzle[x][y] = currentNumber;
+        puzzleBoard[x][y] = currentNumber;
 
         // если isPuzzleSolvable от нового поля вернёт true, то поле решено
-        if (isPuzzleSolvable(puzzle)) {
+        if (isPuzzleSolvable(puzzleBoard)) {
           return true;
         }
 
         // если новое поле не подходит,
         // возвращаем обратно пустую ячейку
-        puzzle[x][y] = '-';
+        puzzleBoard[x][y] = '-';
       }
     }
 
