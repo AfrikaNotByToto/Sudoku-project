@@ -8,6 +8,7 @@ const findFirstEmptyCell = require('./findFirstEmptyCell');
 const isPuzzleValid = require('./isPuzzleValid');
 
 function solve(boardString) {
+
   // создаём массив строк
   const puzzle = [];
   // заполняем конечную таблицу
@@ -60,6 +61,9 @@ function solve(boardString) {
           return true;
         }
 
+ 
+
+
         // если новое поле не подходит,
         // возвращаем обратно пустую ячейку
         puzzleBoard[x][y] = '-';
@@ -86,7 +90,33 @@ function isSolved(board) {}
  * Возвращает строку с игровым полем для последующего вывода в консоль.
  * Подумай, как симпатичнее сформировать эту строку.
  */
-function prettyBoard(board) {}
+
+
+
+function prettyBoard() {
+  const xx = [];
+  for (let j = 0; j < board.length; j += 1) {
+    if (j % 3 === 0) {
+      xx.push('---------+-----------+---------', '\n');
+    }
+    for (let i = 0; i < board[j].length; i += 1) {
+      if (i % 3 === 2) {
+        if (i % 9 === 8) {
+          const res = `${board[j][i]}\n`;
+          xx.push(res);
+        } else {
+          const res = `${board[j][i]}  |  `;
+          xx.push(res);
+        }
+      } else {
+        const res = `${board[j][i]}  `;
+        xx.push(res);
+      }
+    }
+  }
+  xx.push('---------+-----------+---------');
+  console.table(xx.join(''));
+}
 
 // Экспортировать функции для использования в другом файле (например, readAndSolve.js).
 module.exports = {
