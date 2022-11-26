@@ -100,7 +100,7 @@ return false
  * Подумай, как симпатичнее сформировать эту строку.
  */
 
-function prettyBoard() {
+function prettyBoard(board) {
   const xx = [];
   for (let j = 0; j < board.length; j += 1) {
     if (j % 3 === 0) {
