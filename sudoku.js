@@ -17,7 +17,6 @@ function solve(boardString) {
   }
   // убираем последний символ (который \r)
   puzzle.pop();
-  console.table(puzzle);
 
   // размер поля
   const size = puzzle.length;
@@ -72,7 +71,6 @@ function solve(boardString) {
 
   isPuzzleSolvable(puzzle);
 
-  console.table(puzzle);
   return puzzle;
 }
 /**
