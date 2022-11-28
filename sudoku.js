@@ -16,7 +16,9 @@ function solve(boardString) {
     puzzle.push(boardString.slice(i, i + 9).split(''));
   }
   // убираем последний символ (который \r)
-  puzzle.pop();
+  if (puzzle[puzzle.length - 1].length < 2) {
+    puzzle.pop();
+  }
 
   // размер поля
   const size = puzzle.length;
