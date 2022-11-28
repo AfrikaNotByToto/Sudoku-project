@@ -8,7 +8,6 @@ const findFirstEmptyCell = require('./findFirstEmptyCell');
 const isPuzzleValid = require('./isPuzzleValid');
 
 function solve(boardString) {
-
   // создаём массив строк
   const puzzle = [];
   // заполняем конечную таблицу
@@ -17,8 +16,9 @@ function solve(boardString) {
     puzzle.push(boardString.slice(i, i + 9).split(''));
   }
   // убираем последний символ (который \r)
-  puzzle.pop();
-  console.table(puzzle);
+  if (puzzle[puzzle.length - 1].length < 2) {
+    puzzle.pop();
+  }
 
   // размер поля
   const size = puzzle.length;
@@ -61,9 +61,6 @@ function solve(boardString) {
           return true;
         }
 
- 
-
-
         // если новое поле не подходит,
         // возвращаем обратно пустую ячейку
         puzzleBoard[x][y] = '-';
@@ -90,8 +87,6 @@ function isSolved(board) {}
  * Возвращает строку с игровым полем для последующего вывода в консоль.
  * Подумай, как симпатичнее сформировать эту строку.
  */
-
-
 
 function prettyBoard() {
   const xx = [];
